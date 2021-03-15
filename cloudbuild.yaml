@@ -13,7 +13,7 @@ steps:
   
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
-  args: ['run', 'deploy', 'hello-world-service', '--image', 'gcr.io/${_PROJECT}/${_CONTAINERNAME}:${_VERSION}', '--region', 'REGION', '--platform', 'managed']
+  args: ['run', 'deploy', 'hello-world-service', '--image', 'gcr.io/${_PROJECT}/${_CONTAINERNAME}:${_VERSION}', '--region', 'us-west1', '--platform', 'managed']
 images:
 - gcr.io/${_PROJECT}/${_CONTAINERNAME}:${_VERSION}
 

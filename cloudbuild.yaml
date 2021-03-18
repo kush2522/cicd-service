@@ -11,17 +11,23 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push','gcr.io/${_PROJECT}/${_CONTAINERNAME}:${_VERSION}']
   
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: gcloud
-  args: ['run', 'deploy', 'hello-world-service', '--image', 'gcr.io/${_PROJECT}/${_CONTAINERNAME}:${_VERSION}', '--region', 'us-west1', '--platform', 'managed']
-images:
-- gcr.io/${_PROJECT}/${_CONTAINERNAME}:${_VERSION}
-
+#Update the container image using kubectl set
+- name: 'gcr.io/cloud-builders/kubectl'
+  args:
+  - 'set'
+  - 'image'
+  
+  - 'deployment/${_DEPLOYMENTNAME}'
+  - '${_CONTAINERNAME}=gcr.io/${_PROJECT}/${_CONTAINERNAME}:${_VERSION}'
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=${_ZONE}'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=${_GKE_CLUSTER}'
+  
 substitutions:
     #GCP Specific configuration. Please DON'T change anything
     _PROJECT: leaning-gcp-kush
     _ZONE: us-west1-c
-    _GKE_CLUSTER: cicd-gcp
+    _GKE_CLUSTER: cluster-1
     
     #Repository Specific configuration. DevOps can change this settings
     _DEPLOYMENTNAME: hello-world-service
@@ -33,4 +39,3 @@ substitutions:
     
 options:
     substitution_option: 'ALLOW_LOOSE'
-

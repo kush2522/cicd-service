@@ -18,6 +18,7 @@ steps:
   - 'image'
   
   - 'deployment/${_DEPLOYMENTNAME}'
+  - 'n=dev'
   - '${_CONTAINERNAME}=gcr.io/${_PROJECT}/${_CONTAINERNAME}:${_VERSION}'
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=${_ZONE}'

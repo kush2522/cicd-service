@@ -26,7 +26,7 @@ steps:
 substitutions:
     #GCP Specific configuration. Please DON'T change anything
     _PROJECT: leaning-gcp-kush
-    _ZONE: us-west1-c
+    _ZONE: us-west1
     _GKE_CLUSTER: leaning-gcp-kush-gke
     
     #Repository Specific configuration. DevOps can change this settings

@@ -27,7 +27,7 @@ substitutions:
     #GCP Specific configuration. Please DON'T change anything
     _PROJECT: leaning-gcp-kush
     _ZONE: us-west1
-    _GKE_CLUSTER: leaning-gcp-kush-gke
+    _GKE_CLUSTER: cluster-1
     
     #Repository Specific configuration. DevOps can change this settings
     _DEPLOYMENTNAME: hello-world-service

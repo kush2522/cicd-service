@@ -1,0 +1,35 @@
+steps:
+#First Clone from Google Cloud Source Repository  
+- name: 'gcr.io/cloud-builders/git'
+  args: ['clone','https://source.developers.google.com/p/${_PROJECT}/r/${_REPO_NAME}']
+
+#Build the image 
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build','-t','gcr.io/${_PROJECT}/${_CONTAINERNAME}:${_VERSION}','.']
+
+#Push the image  
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push','gcr.io/${_PROJECT}/${_CONTAINERNAME}:${_VERSION}']
+  
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args: ['run', 'deploy', 'hello-world-service', '--image', 'gcr.io/${_PROJECT}/${_CONTAINERNAME}:${_VERSION}', '--region', 'us-west1', '--platform', 'managed']
+images:
+- gcr.io/${_PROJECT}/${_CONTAINERNAME}:${_VERSION}
+
+substitutions:
+    #GCP Specific configuration. Please DON'T change anything
+    _PROJECT: leaning-gcp-kush
+    _ZONE: us-west1-c
+    _GKE_CLUSTER: cicd-gcp
+    
+    #Repository Specific configuration. DevOps can change this settings
+    _DEPLOYMENTNAME: hello-world-service
+    _CONTAINERNAME: hello-world-service    
+    _REPO_NAME: cicd-service
+    
+    # Developers ONLY change
+    _VERSION: v1.0
+    
+options:
+    substitution_option: 'ALLOW_LOOSE'
